@@ -206,21 +206,20 @@ export const useCarState = () => {
     }
   };
   const setEngineDriveMode = async (id: number, status: string) => {
-    try{
-        const response = await fetch(`${urlEngine}/?id=${id}&status=${status}`, {
-            method: "PATCH",
-            body: JSON.stringify({status})
-        })
-        if(!response.ok){
-            throw new Error("Failed to patch drive mode")
-        }
-        const responseData = await response.json()
-        console.log(responseData)
-    }catch(error){
-        console.error("Error occured while patching drive mode", error)
+    try {
+      const response = await fetch(`${urlEngine}/?id=${id}&status=${status}`, {
+        method: "PATCH",
+        body: JSON.stringify({ status }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to patch drive mode");
+      }
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.error("Error occured while patching drive mode", error);
     }
-
-  }
+  };
 
   return {
     cars,
@@ -237,7 +236,6 @@ export const useCarState = () => {
     updateWinner,
     deleteWinner,
     getEngineMode,
-    setEngineDriveMode
+    setEngineDriveMode,
   };
 };
-
