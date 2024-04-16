@@ -4,6 +4,7 @@ import { useCarState } from "./FetchingInfo";
 import raceImg from "./images/FreeVector-Race-Car-And-Flag.jpg";
 import Pagination from "./Components/PaginationGarage/Pagination";
 import CreateUpdate from "./Components/CreateUpdate/CreateUpdate";
+import GarageView from "./Components/garageView/GarageView";
 function App() {
   const {
     cars,
@@ -90,19 +91,13 @@ function App() {
         setColorValue={setColorValue}
       />
       <div className="g-w-views">
-        {displayCars && (
-          <>
-            {currentCars?.map((car, index) => (
-              <div key={index}>
-                <button onClick={() => setSelectId(car.id)}>select</button>
-                <button onClick={() => deleteCar(car.id)}>remove</button>
-                <h2>{car.name}</h2>
-                <h2>{car.color}</h2>
-              </div>
-            ))}
-            <h1>{cars != null && `GARAGE (${cars?.length})`}</h1>
-          </>
-        )}
+        <GarageView
+          displayCars={displayCars}
+          currentCars={currentCars}
+          setSelectId={setSelectId}
+          deleteCar={deleteCar}
+          cars={cars}
+        />
         {!displayCars && (
           <>
             {winners?.map((winner, index) => (
@@ -124,5 +119,5 @@ function App() {
     </div>
   );
 }
-// create winner pagination car svg and make components
+// create winner pagination car svg
 export default App;
