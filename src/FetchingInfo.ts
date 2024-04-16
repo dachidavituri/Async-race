@@ -1,5 +1,6 @@
 import { useState } from "react";
 interface Car {
+  id: number
   name: string;
   color: string;
 }
@@ -16,7 +17,7 @@ export const useCarState = () => {
   const urlWinner = "http://localhost:3000/winners";
   const urlGarage = "http://localhost:3000/garage";
   const urlEngine = "http://localhost:3000/engine";
-  const [cars, setCars] = useState<Car[] | null>([]);
+  const [cars, setCars] = useState<Car[]>([]);
   const [winners, setWinners] = useState<Winner[] | null>([]);
   const [engine, setEngine] = useState<Engine[] | null>([]);
 
@@ -61,6 +62,14 @@ export const useCarState = () => {
         },
         body: JSON.stringify({ name: carName, color: carColor }),
       });
+      if (response.ok) {
+        const newCar = await response.json();
+        if (cars !== null) {
+          setCars([...cars, newCar]);
+        } else {
+          setCars([newCar]);
+        }
+      }
     } catch (error) {
       console.error("error while adding car", error);
     }
@@ -86,6 +95,12 @@ export const useCarState = () => {
       const response = await fetch(`${urlGarage}/${id}`, {
         method: "DELETE",
       });
+      if(response.ok){
+        const updatedCars = cars?.filter((car) => car.id !== id)
+        if(updatedCars !== null){
+          setCars(updatedCars)
+        }
+      }
     } catch (error) {
       console.error("Error while deleting car", error);
     }

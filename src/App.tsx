@@ -27,13 +27,15 @@ function App() {
     // fetchCarId(1)
     // getEngineMode(1, 'started')
     // setEngineDriveMode(1, 'drive')
+    // updateCar(1, {name: 'opel', color: "brown"})
     fetchCars();
+    // deleteCar(5)
   }, []);
   const handleFetchCars = () => {
     setDisplayCars(true);
     fetchCars();
   };
-  
+
   const handleFetchWinners = () => {
     setDisplayCars(false);
     fetchWinner();
@@ -105,6 +107,11 @@ function App() {
       setCurrentPage(currentPage - 1);
     }
   };
+  const [carValue, setCarValue] = useState<string>("");
+  const [colorValue, setColorValue] = useState<string>("");
+  const [carUpValue, setCarUpValue] = useState<string>("");
+  const [colorUpValue, setColorUpValue] = useState<string>("");
+  const [selectId, setSelectId] = useState<number>(0);
   return (
     <div className="App">
       <div className="race-container">
@@ -118,31 +125,33 @@ function App() {
         </div>
         <img src={raceImg} className="race-img" />
       </div>
-      <button onClick={generateRandomCars} className="random-car">
-        generate randomCars
-      </button>
-      {displayCars && (
-        <>
-          <h1>{cars != null && `GARAGE (${cars?.length})`}</h1>
-          {currentCars?.map((car, index) => (
-            <div key={index}>
-              <h2>{car.name}</h2>
-              <h2>{car.color}</h2>
-            </div>
-          ))}
-        </>
-      )}
-      {!displayCars && (
-        <>
-          <h1>{winners != null && `WINNERS (${winners?.length})`}</h1>
-          {winners?.map((winner, index) => (
-            <div key={index}>
-              <h2>{winner.wins}</h2>
-              <h2>{winner.time}</h2>
-            </div>
-          ))}
-        </>
-      )}
+      <div className="g-w-views">
+        {displayCars && (
+          <>
+            {currentCars?.map((car, index) => (
+              <div key={index}>
+                <button onClick={() => setSelectId(car.id)}>select</button>
+                <button onClick={() => deleteCar(car.id)}>remove</button>
+                <h2>{car.name}</h2>
+                <h2>{car.color}</h2>
+              </div>
+            ))}
+            <h1>{cars != null && `GARAGE (${cars?.length})`}</h1>
+          </>
+        )}
+
+        {!displayCars && (
+          <>
+            {winners?.map((winner, index) => (
+              <div key={index}>
+                <h2>{winner.wins}</h2>
+                <h2>{winner.time}</h2>
+              </div>
+            ))}
+            <h1>{winners != null && `WINNERS (${winners?.length})`}</h1>
+          </>
+        )}
+      </div>
       <Pagination
         currentPage={currentPage}
         totalPages={Math.ceil(totalCars / carsPerPage)}
@@ -152,5 +161,5 @@ function App() {
     </div>
   );
 }
-
+// create update winner pagination
 export default App;
