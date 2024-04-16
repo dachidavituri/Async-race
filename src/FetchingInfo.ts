@@ -1,6 +1,6 @@
 import { useState } from "react";
 interface Car {
-  id: number
+  id: number;
   name: string;
   color: string;
 }
@@ -95,10 +95,10 @@ export const useCarState = () => {
       const response = await fetch(`${urlGarage}/${id}`, {
         method: "DELETE",
       });
-      if(response.ok){
-        const updatedCars = cars?.filter((car) => car.id !== id)
-        if(updatedCars !== null){
-          setCars(updatedCars)
+      if (response.ok) {
+        const updatedCars = cars?.filter((car) => car.id !== id);
+        if (updatedCars !== null) {
+          setCars(updatedCars);
         }
       }
     } catch (error) {

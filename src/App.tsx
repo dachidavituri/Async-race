@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useCarState } from "./FetchingInfo";
 import raceImg from "./images/FreeVector-Race-Car-And-Flag.jpg";
 import Pagination from "./Components/PaginationGarage/Pagination";
+import CreateUpdate from "./Components/CreateUpdate/CreateUpdate";
 function App() {
   const {
     cars,
@@ -21,77 +22,18 @@ function App() {
     getEngineMode,
     setEngineDriveMode,
   } = useCarState();
-  const [displayCars, setDisplayCars] = useState(true);
+
   useEffect(() => {
-    // fetchCars();
-    // fetchCarId(1)
-    // getEngineMode(1, 'started')
-    // setEngineDriveMode(1, 'drive')
-    // updateCar(1, {name: 'opel', color: "brown"})
     fetchCars();
-    // deleteCar(5)
   }, []);
   const handleFetchCars = () => {
     setDisplayCars(true);
     fetchCars();
   };
-
   const handleFetchWinners = () => {
     setDisplayCars(false);
     fetchWinner();
   };
-  const getRandomColor = () => {
-    const colors = [
-      "red",
-      "blue",
-      "green",
-      "yellow",
-      "black",
-      "white",
-      "orange",
-      "purple",
-      "pink",
-      "cyan",
-      "magenta",
-      "brown",
-    ];
-    return colors[Math.floor(Math.random() * colors.length)];
-  };
-  const getRandomCarName = () => {
-    const carNames = [
-      "Teslam Model x",
-      "Ford Fusion",
-      "Chevrolet Camaro",
-      "Toyota GT86",
-      "Honda Civic",
-      "Nissan R34",
-      "BMW M5",
-      "Audi RS6",
-      "Mercedes G-classs",
-      "Volkswagen Golf",
-      "Infiniti Q50",
-      "BMW 328",
-    ];
-    return carNames[Math.floor(Math.random() * carNames.length)];
-  };
-  const generateRandomCars = async () => {
-    for (let i = 0; i < 100; i++) {
-      const randomCar = {
-        name: getRandomCarName(),
-        color: getRandomColor(),
-      };
-      await addCar(randomCar.name, randomCar.color);
-    }
-    fetchCars();
-  };
-  const [currentPage, setCurrentPage] = useState(1);
-  const carsPerPage = 7;
-  const totalCars = cars?.length || 0;
-  const indexOfLastCar = currentPage * carsPerPage;
-  const indexOfFirstCar = indexOfLastCar - carsPerPage;
-  const currentCars = cars?.slice(indexOfFirstCar, indexOfLastCar);
-  const totalPages = Math.ceil(totalCars / carsPerPage);
-
   const paginateNext = () => {
     if (currentPage == totalPages) {
       setCurrentPage(1);
@@ -99,7 +41,6 @@ function App() {
       setCurrentPage(currentPage + 1);
     }
   };
-
   const paginatePrev = () => {
     if (currentPage == 1) {
       setCurrentPage(totalPages);
@@ -107,11 +48,20 @@ function App() {
       setCurrentPage(currentPage - 1);
     }
   };
+  const [displayCars, setDisplayCars] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const carsPerPage = 7;
+  const totalCars = cars?.length || 0;
+  const indexOfLastCar = currentPage * carsPerPage;
+  const indexOfFirstCar = indexOfLastCar - carsPerPage;
+  const currentCars = cars?.slice(indexOfFirstCar, indexOfLastCar);
+  const totalPages = Math.ceil(totalCars / carsPerPage);
   const [carValue, setCarValue] = useState<string>("");
   const [colorValue, setColorValue] = useState<string>("");
   const [carUpValue, setCarUpValue] = useState<string>("");
   const [colorUpValue, setColorUpValue] = useState<string>("");
   const [selectId, setSelectId] = useState<number>(0);
+
   return (
     <div className="App">
       <div className="race-container">
@@ -125,6 +75,20 @@ function App() {
         </div>
         <img src={raceImg} className="race-img" />
       </div>
+      <CreateUpdate
+        carValue={carValue}
+        colorValue={colorValue}
+        carUpValue={carUpValue}
+        colorUpValue={colorUpValue}
+        selectId={selectId}
+        fetchCars={fetchCars}
+        addCar={addCar}
+        updateCar={updateCar}
+        setCarUpValue={setCarUpValue}
+        setColorUpValue={setColorUpValue}
+        setCarValue={setCarValue}
+        setColorValue={setColorValue}
+      />
       <div className="g-w-views">
         {displayCars && (
           <>
@@ -139,7 +103,6 @@ function App() {
             <h1>{cars != null && `GARAGE (${cars?.length})`}</h1>
           </>
         )}
-
         {!displayCars && (
           <>
             {winners?.map((winner, index) => (
@@ -161,5 +124,5 @@ function App() {
     </div>
   );
 }
-// create update winner pagination
+// create winner pagination car svg and make components
 export default App;

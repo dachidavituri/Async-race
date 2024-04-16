@@ -51,6 +51,7 @@ h1{
 .g-w-views{
   margin-top: 20px;
 }
+
 @keyframes changeColor {
   0% {
     color: blue; 
@@ -89,5 +90,6 @@ h1{
   .race-img{
     margin-top: 0;
   }
+  
   
 }
