@@ -4,13 +4,14 @@ interface Car {
   name: string;
   color: string;
 }
-interface Winner {
-  wins: number;
-  time: number;
-}
+
 interface Engine {
   velocity: number;
   distance: number;
+}
+interface Winner {
+  wins: number;
+  time: number;
 }
 
 export const useCarState = () => {
@@ -18,7 +19,7 @@ export const useCarState = () => {
   const urlGarage = "http://localhost:3000/garage";
   const urlEngine = "http://localhost:3000/engine";
   const [cars, setCars] = useState<Car[]>([]);
-  const [winners, setWinners] = useState<Winner[] | null>([]);
+  const [winners, setWinners] = useState<Winner[]>([]);
   const [engine, setEngine] = useState<Engine[] | null>([]);
 
   // cars

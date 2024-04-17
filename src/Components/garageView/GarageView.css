@@ -1,0 +1,36 @@
+.garage-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.g-btn{
+  font-weight: bold;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 2px;
+}
+.sel-btn,
+.start {
+  border: 2px solid #8872ec;
+  color: #8872ec;
+}
+.remove-btn,
+.stop {
+  border: 2px solid #67e4ef;
+  color: #67e4ef;
+}
+.road {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  height: 20px;
+  background-color: rgba(155, 144, 144, 0.991);
+  padding: 0 20px;
+  
+}

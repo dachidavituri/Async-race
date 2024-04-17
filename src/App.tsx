@@ -5,6 +5,8 @@ import raceImg from "./images/FreeVector-Race-Car-And-Flag.jpg";
 import Pagination from "./Components/PaginationGarage/Pagination";
 import CreateUpdate from "./Components/CreateUpdate/CreateUpdate";
 import GarageView from "./Components/garageView/GarageView";
+import WinnersView from "./Components/WinnersView/WinnersView";
+import roadImage from "./images/Screenshot 2024-04-17 163901.png";
 function App() {
   const {
     cars,
@@ -67,10 +69,10 @@ function App() {
     <div className="App">
       <div className="race-container">
         <div className="btn-cont">
-          <button className="garage-btn" onClick={handleFetchCars}>
+          <button className="garage-btn btn" onClick={handleFetchCars}>
             garage
           </button>
-          <button className="winners-btn" onClick={handleFetchWinners}>
+          <button className="winners-btn btn" onClick={handleFetchWinners}>
             winners
           </button>
         </div>
@@ -91,6 +93,7 @@ function App() {
         setColorValue={setColorValue}
       />
       <div className="g-w-views">
+        <img src={roadImage} className="road-img" />
         <GarageView
           displayCars={displayCars}
           currentCars={currentCars}
@@ -98,18 +101,11 @@ function App() {
           deleteCar={deleteCar}
           cars={cars}
         />
-        {!displayCars && (
-          <>
-            {winners?.map((winner, index) => (
-              <div key={index}>
-                <h2>{winner.wins}</h2>
-                <h2>{winner.time}</h2>
-              </div>
-            ))}
-            <h1>{winners != null && `WINNERS (${winners?.length})`}</h1>
-          </>
-        )}
+        <WinnersView displayCars={displayCars} winners={winners} />
+        <img src={roadImage} className="road-img" />
       </div>
+      <h1>{displayCars && `GARAGE (${cars?.length})`}</h1>
+      <h1>{!displayCars && `WINNERS (${winners?.length})`}</h1>
       <Pagination
         currentPage={currentPage}
         totalPages={Math.ceil(totalCars / carsPerPage)}
@@ -119,5 +115,4 @@ function App() {
     </div>
   );
 }
-// create winner pagination car svg
 export default App;

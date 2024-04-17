@@ -49,7 +49,7 @@ function CreateUpdate({
   };
   const getRandomCarName = () => {
     const carNames = [
-      "Teslam Model x",
+      "Tesla Model x",
       "Ford Fusion",
       "Chevrolet Camaro",
       "Toyota GT86",
@@ -74,6 +74,27 @@ function CreateUpdate({
     }
     fetchCars();
   };
+  const handleCar = () => {
+    if (carValue !== "") {
+      addCar(carValue, colorValue);
+      setCarValue("");
+      setColorValue("");
+    } else {
+      alert("Please enter valid car name");
+    }
+  };
+  const handleUpdate = () => {
+    if (selectId > 0) {
+      updateCar(selectId, {
+        name: carUpValue,
+        color: colorUpValue,
+      }).then(() => fetchCars());
+      setCarUpValue("");
+      setColorUpValue("");
+    } else {
+      alert("Please Select valid car");
+    }
+  };
   return (
     <div className="cr-up-cont">
       <div>
@@ -88,7 +109,7 @@ function CreateUpdate({
           value={colorValue}
           onChange={(e) => setColorValue(e.target.value)}
         />
-        <button onClick={() => addCar(carValue, colorValue)}>create</button>
+        <button onClick={handleCar}>create</button>
       </div>
       <div>
         <input
@@ -102,16 +123,7 @@ function CreateUpdate({
           value={colorUpValue}
           onChange={(e) => setColorUpValue(e.target.value)}
         />
-        <button
-          onClick={() =>
-            updateCar(selectId, {
-              name: carUpValue,
-              color: colorUpValue,
-            }).then(() => fetchCars())
-          }
-        >
-          update
-        </button>
+        <button onClick={handleUpdate}>update</button>
       </div>
       <button onClick={generateRandomCars} className="random-car">
         generate randomCars
