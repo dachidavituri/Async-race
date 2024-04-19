@@ -13,6 +13,10 @@ interface Winner {
   wins: number;
   time: number;
 }
+interface EngineData {
+  velocity: number;
+  distance: number;
+}
 
 export const useCarState = () => {
   const urlWinner = "http://localhost:3000/winners";
@@ -205,22 +209,29 @@ export const useCarState = () => {
   };
 
   //   engine
-  const getEngineMode = async (id: number, status: string) => {
+  const getEngineMode = async (
+    id: number,
+    status: string
+  ): Promise<EngineData> => {
     try {
       const response = await fetch(`${urlEngine}/?id=${id}&status=${status}`, {
         method: "PATCH",
         body: JSON.stringify({ status }),
       });
+
       if (!response.ok) {
         throw new Error("Failed to patch engine mode");
       }
+
       const responseData = await response.json();
       console.log(responseData);
-      setEngine(responseData);
+      return responseData;
     } catch (error) {
       console.error("Error occurred while patching engine mode", error);
+      throw error;
     }
   };
+
   const setEngineDriveMode = async (id: number, status: string) => {
     try {
       const response = await fetch(`${urlEngine}/?id=${id}&status=${status}`, {

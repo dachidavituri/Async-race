@@ -8,7 +8,7 @@
   flex-direction: column;
   gap: 10px;
 }
-.g-btn{
+.g-btn {
   font-weight: bold;
   background-color: transparent;
   cursor: pointer;
@@ -32,5 +32,4 @@
   height: 20px;
   background-color: rgba(155, 144, 144, 0.991);
   padding: 0 20px;
-  
 }
