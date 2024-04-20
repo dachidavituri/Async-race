@@ -19,6 +19,10 @@ interface EngineData {
   velocity: number;
   distance: number;
 }
+interface CarTime {
+  name: string;
+  time: number;
+}
 function GarageView({
   displayCars,
   currentCars,
@@ -28,7 +32,11 @@ function GarageView({
 }: Garage) {
   const { getEngineMode } = useCarState();
   const [positions, setPositions] = useState<{ [id: number]: number }>({});
+  const [times, setTimes] = useState<{ [id: number]: CarTime }>({});
   const intervalRefs = useRef<{ [id: number]: NodeJS.Timeout }>({});
+  useEffect(() => {
+    console.log(times);
+  }, [times]);
 
   const moveCar = async (car: Car) => {
     clearInterval(intervalRefs.current[car.id]);
@@ -36,9 +44,22 @@ function GarageView({
       const engineData: EngineData = await getEngineMode(car.id, "started");
       const velocity = engineData.velocity;
       const intervalId = setInterval(() => {
-        setPositions((prevPositions) => ({
-          ...prevPositions,
-          [car.id]: (prevPositions[car.id] || 0) + velocity,
+        setPositions((prevPositions) => {
+          const currentPosition = prevPositions[car.id] || 0;
+          const newPosition = currentPosition + velocity;
+          if (newPosition >= window.innerWidth - 250) {
+            clearInterval(intervalId);
+            console.log(`${car.name} reached the end of the screen.`);
+            return { ...prevPositions, [car.id]: newPosition };
+          }
+          return { ...prevPositions, [car.id]: newPosition };
+        });
+        setTimes((prevTimes) => ({
+          ...prevTimes,
+          [car.id]: {
+            name: car.name,
+            time: parseFloat(((prevTimes[car.id]?.time || 0) + 0.1).toFixed(2)),
+          },
         }));
       }, 100);
 
@@ -48,12 +69,17 @@ function GarageView({
     }
   };
 
-  const stopCar = (carId: number) => {
-    clearInterval(intervalRefs.current[carId]);
+  const stopCar = (car: Car) => {
+    clearInterval(intervalRefs.current[car.id]);
 
     setPositions((prevPositions) => ({
       ...prevPositions,
-      [carId]: 0,
+      [car.id]: 0,
+    }));
+
+    setTimes((prevTimes) => ({
+      ...prevTimes,
+      [car.id]: { name: car.name, time: 0 },
     }));
   };
 
@@ -61,8 +87,8 @@ function GarageView({
     <>
       {displayCars && (
         <>
-          {currentCars.map((car, index: number) => (
-            <div key={index} className="garage-container">
+          {currentCars.map((car) => (
+            <div key={car.id} className="garage-container">
               <div className="btns">
                 <button
                   onClick={() => setSelectId(car.id)}
@@ -81,7 +107,7 @@ function GarageView({
                 <button onClick={() => moveCar(car)} className="start g-btn">
                   A
                 </button>
-                <button onClick={() => stopCar(car.id)} className="stop g-btn">
+                <button onClick={() => stopCar(car)} className="stop g-btn">
                   B
                 </button>
               </div>
@@ -109,6 +135,7 @@ function GarageView({
                 <div>start</div>
                 <div>stop</div>
               </div>
+              <div>{`Time for ${car.name}: ${times[car.id]?.time || 0}s`}</div>
             </div>
           ))}
         </>
