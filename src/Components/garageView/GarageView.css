@@ -11,7 +11,6 @@
 .g-btn {
   font-weight: bold;
   background-color: transparent;
-  cursor: pointer;
   border-radius: 5px;
   padding: 2px;
 }
@@ -32,4 +31,25 @@
   height: 20px;
   background-color: rgba(155, 144, 144, 0.991);
   padding: 0 20px;
+}
+.start-stop-cont {
+  display: flex;
+  gap: 30px;
+}
+.start-btn {
+  border: 2px solid #8872ec;
+  color: #8872ec;
+}
+.stop-btn {
+  border: 2px solid #67e4ef;
+  color: #67e4ef;
+}
+.r {
+  background-color: transparent;
+  border-radius: 5px;
+  padding: 2px;
+  text-transform: uppercase;
+}
+button {
+  cursor: pointer;
 }

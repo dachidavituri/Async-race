@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./GarageView.css";
 import { useCarState } from "../../FetchingInfo";
+import { start } from "repl";
 
 interface Car {
   id: number;
@@ -68,6 +69,16 @@ function GarageView({
       console.error("Error fetching engine mode: ", error);
     }
   };
+  const startAllCar = () => {
+    currentCars.forEach((car) => {
+      moveCar(car);
+    });
+  };
+  const stopAllCar = () => {
+    currentCars.forEach((car) => {
+      stopCar(car);
+    });
+  };
 
   const stopCar = (car: Car) => {
     clearInterval(intervalRefs.current[car.id]);
@@ -85,6 +96,14 @@ function GarageView({
 
   return (
     <>
+      <div className="start-stop-cont">
+        <button className="start-btn r" onClick={startAllCar}>
+          race
+        </button>
+        <button className="stop-btn r" onClick={stopAllCar}>
+          reset
+        </button>
+      </div>
       {displayCars && (
         <>
           {currentCars.map((car) => (
@@ -135,7 +154,6 @@ function GarageView({
                 <div>start</div>
                 <div>stop</div>
               </div>
-              <div>{`Time for ${car.name}: ${times[car.id]?.time || 0}s`}</div>
             </div>
           ))}
         </>

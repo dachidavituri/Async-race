@@ -98,10 +98,6 @@ function CreateUpdate({
   return (
     <div className="cr-up-cont">
       <div>
-        <button className="start-btn">start</button>
-        <button className="stop-btn">stop</button>
-      </div>
-      <div>
         <input
           type="text"
           placeholder="TYPE CAR BRAND"
