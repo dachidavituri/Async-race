@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./GarageView.css";
 import { useCarState } from "../../FetchingInfo";
-import { start } from "repl";
-
+import WinnerModal from "../WinnersModal/WinnersModal";
 interface Car {
   id: number;
   name: string;
@@ -24,6 +23,11 @@ interface CarTime {
   name: string;
   time: number;
 }
+interface Winners {
+  id: number;
+  wins: number;
+  time: number;
+}
 function GarageView({
   displayCars,
   currentCars,
@@ -31,13 +35,62 @@ function GarageView({
   deleteCar,
   cars,
 }: Garage) {
-  const { getEngineMode } = useCarState();
+  const { getEngineMode, createWinner, updateWinner, fetchWinner, winners } =
+    useCarState();
   const [positions, setPositions] = useState<{ [id: number]: number }>({});
   const [times, setTimes] = useState<{ [id: number]: CarTime }>({});
   const intervalRefs = useRef<{ [id: number]: NodeJS.Timeout }>({});
+  const [minTime, setMinTime] = useState<number>(Infinity);
+  const [fastestCar, setFastestCar] = useState<string>("");
+  const fetchWiners = async () => {
+    try {
+      await fetchWinner();
+      console.log(winners);
+    } catch (error) {
+      console.log("error occured", error);
+    }
+  };
   useEffect(() => {
     console.log(times);
-  }, [times]);
+    fetchWiners();
+    let fastestCarName = "";
+    let fastestCarId = -1;
+    let minTime = Infinity;
+    const allCarsReached = cars.every(
+      (car) => positions[car.id] >= window.innerWidth - 250
+    );
+    if (allCarsReached) {
+      console.log("miagwia");
+      for (const carId in times) {
+        if (times[carId].time < minTime) {
+          minTime = times[carId].time;
+          fastestCarName = times[carId].name;
+          fastestCarId = parseInt(carId);
+        }
+      }
+      console.log(
+        `The fastest car is ${fastestCarName} with a time of ${minTime}`
+      );
+      if (fastestCarId != -1) {
+        const isCarExist = winners.some(winner => winner.carId === fastestCarId);
+        console.log(isCarExist)
+        if (isCarExist) {
+          const existingWinnerIndex = winners.findIndex(winner => winner.carId === fastestCarId);
+          console.log(`existing winner index ${existingWinnerIndex}`)
+          updateWinner(existingWinnerIndex + 1, fastestCarId, {
+            wins: winners[existingWinnerIndex].wins + 1,
+            times: minTime,
+          });
+          console.log("winner updated");
+        } else {
+          createWinner(fastestCarId, 1, minTime);
+          console.log("winner created");
+        }
+      }
+    }
+    setFastestCar(fastestCarName);
+    setMinTime(minTime);
+  }, [positions, cars, times]);
 
   const moveCar = async (car: Car) => {
     clearInterval(intervalRefs.current[car.id]);
@@ -70,12 +123,19 @@ function GarageView({
     }
   };
   const startAllCar = () => {
-    currentCars.forEach((car) => {
-      moveCar(car);
-    });
+    const anyCarReach = Object.values(positions).some(
+      (position) => position >= window.innerWidth - 250
+    );
+    if (!anyCarReach) {
+      cars.forEach((car) => {
+        moveCar(car);
+      });
+    } else {
+      console.log("Every car have already reached the end of the screen");
+    }
   };
   const stopAllCar = () => {
-    currentCars.forEach((car) => {
+    cars.forEach((car) => {
       stopCar(car);
     });
   };
@@ -93,9 +153,14 @@ function GarageView({
       [car.id]: { name: car.name, time: 0 },
     }));
   };
-
+  const closeModal = () => {
+    setFastestCar("");
+  };
   return (
     <>
+      {fastestCar && (
+        <WinnerModal carName={fastestCar} time={minTime} onClose={closeModal} />
+      )}
       <div className="start-stop-cont">
         <button className="start-btn r" onClick={startAllCar}>
           race

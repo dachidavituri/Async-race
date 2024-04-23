@@ -49,6 +49,7 @@
   border-radius: 5px;
   padding: 2px;
   text-transform: uppercase;
+  font-weight: bold;
 }
 button {
   cursor: pointer;

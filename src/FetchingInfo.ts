@@ -10,8 +10,10 @@ interface Engine {
   distance: number;
 }
 interface Winner {
+  id: number;
   wins: number;
   time: number;
+  carId: number;
 }
 interface EngineData {
   velocity: number;
@@ -41,7 +43,6 @@ export const useCarState = () => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
       setCars(data);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -167,14 +168,14 @@ export const useCarState = () => {
       console.error("Error fetching data: ", error);
     }
   };
-  const createWinner = async (wins: number, times: number) => {
+  const createWinner = async (carId: number, wins: number, times: number) => {
     try {
       const response = await fetch(urlWinner, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ wins: wins, times: times }),
+        body: JSON.stringify({ carId, wins, times }),
       });
     } catch (error) {
       console.error(`error occured while creating winner ${error}`);
@@ -183,7 +184,8 @@ export const useCarState = () => {
 
   const updateWinner = async (
     id: number,
-    updatedWinner: { wins: string; times: string }
+    carId: number,
+    updatedWinner: { wins: number; times: number }
   ) => {
     try {
       const response = await fetch(`${urlWinner}/${id}`, {
@@ -191,7 +193,7 @@ export const useCarState = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updateWinner),
+        body: JSON.stringify({ carId, ...updatedWinner }),
       });
     } catch (error) {
       console.error(`error occured while updating winner ${error}`);
