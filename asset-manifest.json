@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/Async-race/static/css/main.2dc04999.css",
+    "main.js": "/Async-race/static/js/main.eb7a672c.js",
+    "static/js/453.138a93c3.chunk.js": "/Async-race/static/js/453.138a93c3.chunk.js",
+    "static/media/Screenshot 2024-04-17 163901.png": "/Async-race/static/media/Screenshot 2024-04-17 163901.aa9ed1d0b2017d8d9d09.png",
+    "static/media/FreeVector-Race-Car-And-Flag.jpg": "/Async-race/static/media/FreeVector-Race-Car-And-Flag.f0166ca402acac9d59d0.jpg",
+    "static/media/360_F_554731137_qf9Y00iCVy1HN8qOrbSn3P6jQ6j8LdQt.jpg": "/Async-race/static/media/360_F_554731137_qf9Y00iCVy1HN8qOrbSn3P6jQ6j8LdQt.bc7590177ca1722b40fd.jpg",
+    "index.html": "/Async-race/index.html",
+    "main.2dc04999.css.map": "/Async-race/static/css/main.2dc04999.css.map",
+    "main.eb7a672c.js.map": "/Async-race/static/js/main.eb7a672c.js.map",
+    "453.138a93c3.chunk.js.map": "/Async-race/static/js/453.138a93c3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2dc04999.css",
+    "static/js/main.eb7a672c.js"
+  ]
+}
