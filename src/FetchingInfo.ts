@@ -168,14 +168,14 @@ export const useCarState = () => {
       console.error("Error fetching data: ", error);
     }
   };
-  const createWinner = async (carId: number, wins: number, times: number) => {
+  const createWinner = async (carId: number, wins: number, time: number) => {
     try {
       const response = await fetch(urlWinner, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ carId, wins, times }),
+        body: JSON.stringify({ carId, wins, time }),
       });
     } catch (error) {
       console.error(`error occured while creating winner ${error}`);
@@ -185,7 +185,7 @@ export const useCarState = () => {
   const updateWinner = async (
     id: number,
     carId: number,
-    updatedWinner: { wins: number; times: number }
+    updatedWinner: { wins: number; time: number }
   ) => {
     try {
       const response = await fetch(`${urlWinner}/${id}`, {

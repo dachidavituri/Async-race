@@ -7,6 +7,7 @@ import CreateUpdate from "./Components/CreateUpdate/CreateUpdate";
 import GarageView from "./Components/garageView/GarageView";
 import WinnersView from "./Components/WinnersView/WinnersView";
 import roadImage from "./images/Screenshot 2024-04-17 163901.png";
+import WinnerPagination from "./Components/WinnerPagination/WinnerPagination";
 
 function App() {
   const {
@@ -52,6 +53,27 @@ function App() {
       setCurrentPage(currentPage - 1);
     }
   };
+  const paginateNextW = () => {
+    if (currentPageW == totalPageWinner) {
+      setCurrentPageW(1);
+    } else {
+      setCurrentPageW(currentPageW + 1);
+    }
+  };
+  const paginatePrevW = () => {
+    if (currentPageW == 1) {
+      setCurrentPageW(totalPageWinner);
+    } else {
+      setCurrentPageW(currentPageW - 1);
+    }
+  };
+  const [currentPageW, setCurrentPageW] = useState(1);
+  const winnersPerPage = 3;
+  const indexOfLastWinner = currentPageW * winnersPerPage;
+  const indexOfFirstWinner = indexOfLastWinner - winnersPerPage;
+  const currentWinners = winners.slice(indexOfFirstWinner, indexOfLastWinner);
+  const totalPageWinner = Math.ceil(winners.length / winnersPerPage);
+
   const [displayCars, setDisplayCars] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 7;
@@ -102,17 +124,31 @@ function App() {
           deleteCar={deleteCar}
           cars={cars}
         />
-        <WinnersView displayCars={displayCars} winners={winners} />
+        <WinnersView
+          displayCars={displayCars}
+          currentWinners={currentWinners}
+          cars={cars}
+        />
         <img src={roadImage} className="road-img" />
       </div>
       <h1>{displayCars && `GARAGE (${cars?.length})`}</h1>
-      <h1>{!displayCars && `WINNERS (${winners?.length})`}</h1>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={Math.ceil(totalCars / carsPerPage)}
-        paginateNext={paginateNext}
-        paginatePrev={paginatePrev}
-      />
+      <h1>{!displayCars && `WINNERS (${winners?.length - 1})`}</h1>
+      {displayCars && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(totalCars / carsPerPage)}
+          paginateNext={paginateNext}
+          paginatePrev={paginatePrev}
+        />
+      )}
+      {!displayCars && (
+        <WinnerPagination
+          currentPage={currentPageW}
+          paginateNext={paginateNextW}
+          paginatePrev={paginatePrevW}
+          totalPages={totalPageWinner}
+        />
+      )}
     </div>
   );
 }

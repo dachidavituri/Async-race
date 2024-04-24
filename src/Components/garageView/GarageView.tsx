@@ -72,14 +72,18 @@ function GarageView({
         `The fastest car is ${fastestCarName} with a time of ${minTime}`
       );
       if (fastestCarId != -1) {
-        const isCarExist = winners.some(winner => winner.carId === fastestCarId);
-        console.log(isCarExist)
+        const isCarExist = winners.some(
+          (winner) => winner.carId === fastestCarId
+        );
+        console.log(isCarExist);
         if (isCarExist) {
-          const existingWinnerIndex = winners.findIndex(winner => winner.carId === fastestCarId);
-          console.log(`existing winner index ${existingWinnerIndex}`)
+          const existingWinnerIndex = winners.findIndex(
+            (winner) => winner.carId === fastestCarId
+          );
+          console.log(`existing winner index ${existingWinnerIndex}`);
           updateWinner(existingWinnerIndex + 1, fastestCarId, {
             wins: winners[existingWinnerIndex].wins + 1,
-            times: minTime,
+            time: minTime,
           });
           console.log("winner updated");
         } else {
@@ -155,20 +159,24 @@ function GarageView({
   };
   const closeModal = () => {
     setFastestCar("");
+    stopAllCar();
   };
   return (
     <>
       {fastestCar && (
         <WinnerModal carName={fastestCar} time={minTime} onClose={closeModal} />
       )}
-      <div className="start-stop-cont">
-        <button className="start-btn r" onClick={startAllCar}>
-          race
-        </button>
-        <button className="stop-btn r" onClick={stopAllCar}>
-          reset
-        </button>
-      </div>
+      {displayCars && (
+        <div className="start-stop-cont">
+          <button className="start-btn r" onClick={startAllCar}>
+            race
+          </button>
+          <button className="stop-btn r" onClick={stopAllCar}>
+            reset
+          </button>
+        </div>
+      )}
+
       {displayCars && (
         <>
           {currentCars.map((car) => (

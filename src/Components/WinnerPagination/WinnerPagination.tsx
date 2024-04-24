@@ -1,4 +1,4 @@
-import "./pagination.css";
+import "./WinnerPagination.css";
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -6,7 +6,7 @@ interface PaginationProps {
   paginatePrev: () => void;
 }
 
-const Pagination = ({
+const WinnerPagination = ({
   currentPage,
   totalPages,
   paginateNext,
@@ -31,4 +31,4 @@ const Pagination = ({
   );
 };
 
-export default Pagination;
+export default WinnerPagination;

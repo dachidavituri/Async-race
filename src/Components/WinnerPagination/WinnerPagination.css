@@ -1,0 +1,15 @@
+.pagination {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  list-style-type: none;
+}
+.page-link {
+  color: white;
+  border-radius: 10px;
+  border: none;
+  background-color: transparent;
+  font-family: "Teko", sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+}
