@@ -2,7 +2,7 @@ import "./WinnersModal.css";
 interface WinnerModalProps {
   carName: string;
   time: number;
-  onClose: () => void
+  onClose: () => void;
 }
 function WinnerModal({ carName, time, onClose }: WinnerModalProps) {
   return (

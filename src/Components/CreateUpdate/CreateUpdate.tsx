@@ -85,12 +85,14 @@ function CreateUpdate({
   };
   const handleUpdate = () => {
     if (selectId > 0) {
-      updateCar(selectId, {
-        name: carUpValue,
-        color: colorUpValue,
-      }).then(() => fetchCars());
-      setCarUpValue("");
-      setColorUpValue("");
+      if (carUpValue !== "") {
+        updateCar(selectId, {
+          name: carUpValue,
+          color: colorUpValue,
+        }).then(() => fetchCars());
+        setCarUpValue("");
+        setColorUpValue("");
+      }
     } else {
       alert("Please Select valid car");
     }

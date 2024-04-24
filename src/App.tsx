@@ -68,10 +68,14 @@ function App() {
     }
   };
   const [currentPageW, setCurrentPageW] = useState(1);
-  const winnersPerPage = 3;
+  const winnersPerPage = 4;
   const indexOfLastWinner = currentPageW * winnersPerPage;
   const indexOfFirstWinner = indexOfLastWinner - winnersPerPage;
-  const currentWinners = winners.slice(indexOfFirstWinner, indexOfLastWinner);
+  const newWinners = winners.slice(1);
+  const currentWinners = newWinners.slice(
+    indexOfFirstWinner,
+    indexOfLastWinner
+  );
   const totalPageWinner = Math.ceil(winners.length / winnersPerPage);
 
   const [displayCars, setDisplayCars] = useState(true);

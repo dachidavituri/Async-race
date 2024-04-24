@@ -1,0 +1,23 @@
+.winners-container {
+  width: 100%;
+  padding: 20px;
+}
+
+.winners-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.winners-table th,
+.winners-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  font-size: 20px;
+}
+.winners-table td {
+  color: rgb(171, 61, 37);
+}
+
+.winners-table th {
+  background-color: #f2f2f2;
+}
